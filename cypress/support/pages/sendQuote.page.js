@@ -1,13 +1,13 @@
 import { faker } from '@faker-js/faker';
 
 const SELETORES = {
-    BTN_ABA_ATIVA :'idealsteps-step-active',
+    BTN_ABA_ATIVA: 'idealsteps-step-active',
     INPUT_EMAIL: '#email',
     INPUT_TELEFONE: '#phone',
     INPUT_USERNAME: '#username',
     INPUT_SENHA: '#password',
-    INPUT_CONFIRMAR_SENHA:'#confirmpassword',
-    INPUT_COMENTARIO:'#Comments',
+    INPUT_CONFIRMAR_SENHA: '#confirmpassword',
+    INPUT_COMENTARIO: '#Comments',
     BTN_ENVIAR: '#sendemail',
     ALERT_POPUP: '.sweet-alert',
     BTN_CONFIRMAR: '.confirm',
@@ -17,20 +17,21 @@ const SELETORES = {
 const USUARIO = {
     email: faker.internet.email(),
     telefone: faker.string.numeric(8),
-    username:  faker.internet.username().replace(/-/g, ''),
+    username: faker.internet.username().replace(/-/g, ''),
     senha: faker.internet.password(8, true, /[A-Za-z0-9!@#$%^&*()_+={}\[\]|;:'",.<>?/-]/),
     comentario: faker.lorem.sentences(2)
 }
 
 Cypress.on('uncaught:exception', (err, runnable) => {
     if (err.message.includes('e is not defined')) {
-        return false; 
+        return false;
     }
-    return true; 
+    return true;
 });
 
 Cypress.Commands.add('validarPaginaCotacao', () => {
     cy.get(`li.${SELETORES.BTN_ABA_ATIVA} a`).should('have.id', 'sendquote')
+    cy.log('Redirecionamento feito com sucesso.')
 })
 
 Cypress.Commands.add('preencherFormularioEnvio', () => {
@@ -44,26 +45,28 @@ Cypress.Commands.add('preencherFormularioEnvio', () => {
     cy.get(SELETORES.INPUT_USERNAME).type(Cypress.env('username'))
     cy.get(SELETORES.INPUT_SENHA).type(Cypress.env('senha'))
     cy.get(SELETORES.INPUT_CONFIRMAR_SENHA).type(Cypress.env('senha'))
-    cy.get(SELETORES.INPUT_COMENTARIO).type( USUARIO.comentario)
+    cy.get(SELETORES.INPUT_COMENTARIO).type(USUARIO.comentario)
     cy.get(SELETORES.BTN_ENVIAR).click()
     cy.screenshot({
-        capture: 'fullPage', 
-        blackout: ['.elemento-escondido'], 
-        clip: { x: 0, y: 0, width: 500, height: 300 }, 
-      });
+        capture: 'fullPage',
+        blackout: ['.elemento-escondido'],
+        clip: { x: 0, y: 0, width: 500, height: 300 },
+    });
 })
 
 Cypress.Commands.add('alertaSucesso', () => {
     cy.get(SELETORES.ALERT_POPUP, { timeout: 10000 })
         .should('be.visible')
         .and('contain', 'Sending e-mail success!')
-        cy.screenshot({
-            capture: 'fullPage', 
-          })
+    cy.log('Mensagem de sucesso exibida.')
+    cy.screenshot({
+        capture: 'fullPage',
+    })
 })
 
 Cypress.Commands.add('clicarOk', () => {
     cy.wait(1000)
     cy.get(SELETORES.BTN_CONFIRMAR).click()
+    cy.log('Botão Ok clicado e popup com mensagem de sucesso fechada.')
 })
 

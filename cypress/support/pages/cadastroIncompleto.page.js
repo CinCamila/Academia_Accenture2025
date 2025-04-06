@@ -3,7 +3,7 @@ const seletores = {
     BTN_NEXT_SEGURADO: '#nextenterinsurantdata',
     BTN_NEXT_PRODUTO: '#nextenterproductdata',
     BTN_NEXT_PRECO: '#nextselectpriceoption',
-    BTN_NEXT_QUOTACAO : '#nextsendquote',
+    BTN_NEXT_QUOTACAO: '#nextsendquote',
     LOADING_PREENCHA_FORMULARIO: '#xLoaderPrice'
 }
 
@@ -19,7 +19,8 @@ Cypress.Commands.add('pularPreenchimento', () => {
 Cypress.Commands.add('mensagemPreencherFormulario', () => {
     cy.get(seletores.LOADING_PREENCHA_FORMULARIO).should('be.visible')
     cy.get(seletores.LOADING_PREENCHA_FORMULARIO).should('contain', 'Please, complete the first three steps to see the price table.')
+    cy.log('Tela de loading carregada e tabela não exibida.')
     cy.screenshot({
-        capture: 'fullPage', 
-      })
+        capture: 'fullPage',
+    })
 })

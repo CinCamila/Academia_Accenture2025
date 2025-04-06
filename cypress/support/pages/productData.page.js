@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 
 const SELETORES = {
-  BTN_ABA_ATIVA:'idealsteps-step-active',
+  BTN_ABA_ATIVA: 'idealsteps-step-active',
   INPUT_INICIO_DATA: '#startdate',
   SELECT_SOMA_SEGURO: '#insurancesum',
   SELECT_CLASSIFICACAO: '#meritrating',
@@ -13,6 +13,7 @@ const SELETORES = {
 
 Cypress.Commands.add('validarPaginaProduto', () => {
   cy.get(`li.${SELETORES.BTN_ABA_ATIVA} a`).should('have.id', 'enterproductdata')
+  cy.log('Redirecionamento feito com sucesso.')
 })
 
 Cypress.Commands.add('preencherFormularioProduto', () => {
@@ -50,7 +51,7 @@ Cypress.Commands.add('preencherFormularioProduto', () => {
     if (escolha === 0) {
       const index = Math.floor(Math.random() * $checkboxes.length)
       cy.wrap($checkboxes[index]).check({ force: true })
-    } 
+    }
     else {
       [...$checkboxes].forEach(checkbox => {
         cy.wrap(checkbox).check({ force: true })
@@ -65,7 +66,8 @@ Cypress.Commands.add('preencherFormularioProduto', () => {
   })
 
   cy.screenshot({
-    capture: 'fullPage', 
+    capture: 'fullPage',
   })
   cy.get(SELETORES.BTN_NEXT).click()
+  cy.log('Botão Next clicado')
 })
